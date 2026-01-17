@@ -19,7 +19,7 @@ export const AppContextProvider = ({children})=>{
 
     const fetchUsersChats = async (params) => {
         setChats(dummyChats)
-        setSelectedChat(dummyChats[0])
+        setSelectedChat()
     }
 
     useEffect(()=> {if(theme === 'dark'){
