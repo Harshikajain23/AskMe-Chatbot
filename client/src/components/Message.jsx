@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import moment from 'moment'
+import Markdown from 'react-markdown'
+import Prism from 'prismjs'
 
 const Message = ({message}) => {
+
+  useEffect(()=>{
+    Prism.highlightAll()
+  }, [message.content])
   return (
     <div>
       {message.role === "user" ? (
@@ -20,7 +26,7 @@ const Message = ({message}) => {
         <img src={message.content} alt="" className='w-full max-w-md mt-2 rounded-md'/>
       ):
       (
-        <div className='text-sm dark:text-primary reset-tw'> {message.content}</div>
+        <div className='text-sm dark:text-primary reset-tw'>  <Markdown> {message.content} </Markdown></div>
       )
       }
       <span className='text-xs text-gray-400 dark:text-[#b8b2c0]'>{moment(message.timestamp).fromNow()}</span>
