@@ -11,7 +11,7 @@ export const Loading = () => {
   }, [])
   return (
     <div className='bg-gradient-to-r from-[#424849] to-[#bac2ce] backdrop-opacity-60 flex items-center justify-center h-screen w-screen text-white text-2xl'>
-      <div className='w-10 h-10 rounded-full border-3 border-white border-t-transparent animate-spin'> </div>
+      <div className='w-10 h-10 mr-50 rounded-full border-3 border-white border-t-transparent animate-spin'> </div>
     </div>
   )
 }

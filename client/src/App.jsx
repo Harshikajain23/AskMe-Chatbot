@@ -9,9 +9,13 @@ import { assets } from './assets/assets'
 import { useState } from 'react'
 import './assets/prism.css'
 import { Loading } from './pages/Loading'
+import { useAppContext } from './context/AppContext'
+import { Login } from './pages/Login'
 
 
 const App = () => {
+
+  const {user} = useAppContext()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -21,11 +25,13 @@ const App = () => {
   return (
     <>
     {!isMenuOpen && <img src={assets.menu_icon} className='absolute top-3 left-3 w-8 h-8 cursor-pointer md:hidden not-dark:invert' onClick={()=> setIsMenuOpen(true)}/>}
-    <div className='dark:bg-gradient-to-b from-[#6B7280] to-[#1F2937] dark:text-white'>
+
+    {user ? (
+      <div className='dark:bg-gradient-to-b from-[#6B7280] to-[#1F2937] dark:text-white'>
        <div className='flex h-screen w-screen'> 
         <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         
-               <div className="flex-1 h-full">
+               <div className="flex-1 ml-[16.6667%] h-full">
           <Routes>
             <Route path="/" element={<ChatBox />} />
             <Route path="/credits" element={<Credits />} />
@@ -37,6 +43,14 @@ const App = () => {
 
       </div>
     </div>
+    ): (
+
+      <div className='bg-gradient-to-b from-[#2e2e2e] to-[#000000] flex items-center justify-center h-screen w-screen'>
+        <Login/>
+      </div>
+
+    )}
+    
      
     </>
   )

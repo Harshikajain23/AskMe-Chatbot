@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import Message from './Message'
 
 const ChatBox = () => {
+
+  const containerRef = useRef(null)
 
   const {selectedChat, theme} = useAppContext()
 
@@ -29,11 +31,19 @@ const ChatBox = () => {
     }
   }, [selectedChat])
 
+  useEffect(()=> {
+    if(containerRef.current){
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight, 
+        behavior: "smooth",
+      })
+    }
+  },[messages])
 
   return (
-    <div className='flex-1 flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'> 
+    <div className='flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'> 
     {/* Chat Messages */}
-    <div className='flex-1 mb-10 mt-20 overflow-y-scroll flex items-center'>
+    <div ref={containerRef} className='flex-1 mb-10 mt-20 overflow-y-scroll flex flex-col items-center'>
       {messages.length === 0 && (
         <div className='h-full flex flex-col items-center justify-center gap-2 text-primary m-auto'> 
           <img src={theme === 'dark' ? assets.logo_full_dark : assets.logo_full} alt="" className='w-full max-w-56 sm:max-w-68' />
