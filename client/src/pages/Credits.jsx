@@ -24,13 +24,20 @@ const Credits = () => {
 
     <div className='flex flex-wrap justify-center gap-8'>  
       {plans.map((plan)=> (
-        <div key={plan._id} className={`border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-lg transition-shadow p-6 min-w-[300px] flex flex-col ${plan._id === 'pro' ? "bg-gray-50 dark:bg-gray-900" : "bg-white dark:bg-transparent"}`}> 
+        <div key={plan._id} className={`border border-gray-200 dark:border-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow p-6 min-w-[300px] flex flex-col ${plan._id === 'pro' ? "bg-gray-50 dark:bg-gray-900" : "bg-white dark:bg-transparent"}`}> 
           <div className='flex-1'>
           <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-2'>{plan.name} </h3>
           <p className='text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4'>₹ {plan.price}
-            <span> {' '}/ {plan.credits} credits </span>
+            <span className='text-base font-normal text-gray-600 dark:text-gray-200'> {' '}/ {plan.credits} credits </span>
           </p>
+          <ul className='list-disc list-inside text-sm text-gray-700 dark:text-gray-200 space-y-1'>
+            {plan.features.map((feature, index)=> (
+              <li key = {index}> {feature}</li>
+            ))}
+          </ul>
+
             </div>
+            <button className='my-6 bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-white font-medium py-2 rounded transition-colors cursor-pointer'> Buy  Now</button>
         </div>
       ))}
     </div>
