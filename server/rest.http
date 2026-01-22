@@ -1,10 +1,16 @@
-# GET http://localhost:3000/
 
-POST http://localhost:3000/api/user/register
+
+### LOGIN
+POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-  "name": "Harshika Jain",
-  "email": "harshika@test.com",
+  "email": "harshika.jain@example.com",
   "password": "123456"
 }
+
+###
+
+### GET USER DATA
+GET http://localhost:3000/api/user/data
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc

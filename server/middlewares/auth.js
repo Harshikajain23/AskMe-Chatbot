@@ -5,6 +5,10 @@ export const protect = async (req, res, next)=> {
 
     const authHeader = req.headers.authorization;
 
+    console.log("Headers received:", req.headers);  // <- debug line
+    
+    console.log("Authorization header:", authHeader);  
+
     console.log('Middleware reached');
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
