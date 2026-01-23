@@ -1,5 +1,6 @@
 import Transaction from "../models/Transaction.js"
-import Stripe from 'stripe'
+import Razorpay from "razorpay"
+import crypto from "crypto"
 
 
 const plans = [
@@ -35,7 +36,10 @@ export const getPlans = async (req, res)=> {
     }
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_TEST_PUBLISHABLE_KEY,       // test key
+  key_secret: process.env.RAZORPAY_TEST_SECRET_KEY
+})
 
 // API Controller for purchasing a plan
 
@@ -64,30 +68,59 @@ export const purchasePlans = async (req, res)=> {
         
         const {origin} = req.headers;
 
-        const session = await stripe.checkout.sessions.create({
-  line_items: [
-    {
-      price_data: {
-        currency : "inr",
-        unit_amount: plan.price * 100,
-        product_data : {
-            name : plan.name
-        }
-      },
-      quantity: 1,
-    },
-  ],
-  mode: 'payment',
-  success_url: `${origin}/loading`,
-  cancel_url: `${origin}` ,
-  metadata : {transactionId: transaction._id.toString(), appId: 'AskMe-chatbot'},
-  expires_at : Math.floor(Date.now()/ 1000) + 30 * 60, // Expires in 30 minutes
-
-    });
-
-    res.json({success:true, url: session.url })
+        const order = await razorpay.orders.create({
+  amount: plan.price * 100, // INR → paise
+      currency: "INR",
+      receipt: transaction._id.toString(),
+      notes: {
+        planName: plan.name,
+        userId: userId.toString(),
+        transactionId: transaction._id.toString()
+      }
+    })
+      return res.json({
+      success: true,
+      order, // order.id goes to frontend
+      razorpayKey: process.env.RAZORPAY_TEST_PUBLISHABLE_KEY,
+      transactionId: transaction._id
+    })
  } catch(error){
         res.json({success: false, message: error.message})
     }
 
 }
+
+// verify payment
+
+export const verifyPayment = async (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, transactionId } = req.body;
+
+    if (!transactionId) {
+      return res.status(400).json({ success: false, message: "Transaction ID is required" });
+    }
+
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_TEST_SECRET_KEY)
+      .update(sign)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed"
+      });
+    }
+
+    // Mark transaction as paid
+    await Transaction.findByIdAndUpdate(transactionId, { isPaid: true });
+
+    return res.json({
+      success: true,
+      message: "Payment verified successfully"
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};

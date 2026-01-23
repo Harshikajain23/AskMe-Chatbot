@@ -15,14 +15,20 @@ Content-Type: application/json
 #  GET http://localhost:3000/api/chat/get
 #  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
 
-POST http://localhost:3000/api/message/image
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
+# POST http://localhost:3000/api/message/image
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
+# Content-Type: application/json
+
+# {
+#   "chatId": "6970e74c76eadd2882507273",
+#   "prompt": "a boy climbing stairs", 
+#   "isPublished": true
+
+# }
+
+POST http://localhost:3000/api/credit/purchase
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
 {
-  "chatId": "6970e74c76eadd2882507273",
-  "prompt": "a boy climbing stairs", 
-  "isPublished": true
-
+  "planId": "basic"
 }
-
