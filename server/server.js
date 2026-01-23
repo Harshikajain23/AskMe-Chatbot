@@ -6,10 +6,18 @@ import userRouter from './routes/userRoutes.js'
 import chatRouter from './routes/chatRoute.js'
 import messageRouter from './routes/messageRoutes.js'
 import creditRouter from './routes/creditRoutes.js'
+import { razorpayWebhook } from './controllers/webhooks.js'
 
 const app = express()
 
 await connectDB()
+
+// Razorpay webhookd
+app.post(
+  '/api/razorpay',
+  express.raw({ type: 'application/json' }),
+  razorpayWebhook
+)
 
 // Middleware
 app.use(cors())
