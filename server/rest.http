@@ -26,9 +26,31 @@ Content-Type: application/json
 
 # }
 
-POST http://localhost:3000/api/credit/purchase
+# POST http://localhost:3000/api/credit/purchase
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
+# origin: "http://localhost:5173/"
+
+# {
+#   "planId": "basic"
+# }
+
+
+### Test Razorpay Webhook
+POST https://askme-chatbot-server.vercel.app/api/razorpay
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmY3MmNkZDIyNDBkNjJiNzhkY2UzMiIsImlhdCI6MTc2ODkxMzYzMiwiZXhwIjoxNzcxNTA1NjMyfQ.fV8Cs8gLX7OVSU70FpBM32RaNiROwDcn27et9Rx4Ckc
+# x-razorpay-signature: test-signature
+
 {
-  "planId": "basic"
+  "event": "payment.captured",
+  "payload": {
+    "payment": {
+      "id": "pay_ABC123",
+      "amount": 5000,
+      "currency": "INR",
+      "notes": {
+        "transactionId": "12345"
+      }
+    }
+  }
 }
