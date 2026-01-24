@@ -8,7 +8,7 @@ export const razorpayWebhook = async (req, res) => {
   const signature = req.headers['x-razorpay-signature']
 
   // 1️⃣ Verify signature
-  const body = req.body.toString()
+  const body = req.body;
 
   const expectedSignature = crypto
     .createHmac('sha256', secret)
@@ -20,7 +20,7 @@ export const razorpayWebhook = async (req, res) => {
   }
 
   // 2️⃣ Handle event
-  const event = req.body
+  const event = JSON.parse(body.toString())
 
   if (event.event === 'payment.captured') {
     const payment = event.payload.payment.entity
