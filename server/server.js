@@ -1,8 +1,7 @@
-import express from 'express'
+import express, { response } from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import connectDB from './configs/db.js'
-
 import userRouter from './routes/userRoutes.js'
 import chatRouter from './routes/chatRoute.js'
 import messageRouter from './routes/messageRoutes.js'
@@ -13,19 +12,27 @@ const app = express()
 
 await connectDB()
 
+// Razorpay webhookd
 app.post(
   '/api/razorpay',
   express.raw({ type: 'application/json' }),
   razorpayWebhook
 )
 
+// Middleware
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('Server is Live!'))
+
+// Routes
+app.get('/', (req, res)=> res.send('Server is Live!'))
 app.use('/api/user', userRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/message', messageRouter)
 app.use('/api/credit', creditRouter)
 
-export default app
+const PORT = process.env.PORT || 3000
+
+app.listen( PORT, ()=> {
+    console.log(`Server is running on port ${PORT}`)
+})
