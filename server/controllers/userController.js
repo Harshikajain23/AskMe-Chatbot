@@ -43,6 +43,7 @@ export const registerUser = async (req, res) => {
 // API to login user
 
 export const loginUser = async (req, res)=> {
+    console.log("LOGIN HIT", req.body);
      const { email, password} = req.body;
 
      try{
