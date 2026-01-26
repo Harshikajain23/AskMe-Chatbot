@@ -83,15 +83,15 @@ const ChatBox = () => {
   },[messages])
 
   return (
-    <div className='flex flex-col h-[90%] justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40 sm:w-full'> 
+    <div className='flex flex-col h-[90%] justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40 sm-w-full'> 
 
     <Toaster
   position="top-center"
   toastOptions={{
     style: {
-      width: '100%',
-      maxWidth: '100%',
-      marginLeft: window.innerWidth < 768 ? '0' : '16.6667%',
+      marginLeft: '16.6667%',   // sidebar width
+      width: '83.3333%',        // main area width
+      display: 'flex',
       justifyContent: 'center'
     }
   }}
