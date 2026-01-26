@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { dummyPublishedImages } from '../assets/assets'
 import { useEffect } from 'react'
 import { Loading } from './Loading'
+import { Toaster } from 'react-hot-toast' 
+import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 export const Community = () => {
 
@@ -9,10 +12,23 @@ export const Community = () => {
 
   const [loading, setLoading] = useState(true)
 
+  const {axios} = useAppContext()
+
   const fetchImages = async ()=> {
-   setImages(dummyPublishedImages) 
+   try {
+    const {data} = await axios.get('/api/user/published-images')
+    if(data.success){
+      setImages(data.images)
+    }else {
+      toast.error(data.message)
+    }
+   } catch (error) {
+    toast.error(error.message)
+   }
+
    setLoading(false)
   }
+
 
   useEffect(()=> {
     fetchImages()
@@ -22,6 +38,19 @@ export const Community = () => {
 
   return (
     <div className='p-6 pt-12 xl:px-12 2xl:px-20 w-full mx-auto h-full overflow-y-scroll' >
+
+          
+    <Toaster
+  position="top-center"
+  toastOptions={{
+    style: {
+      
+      width: '100%',        // main area width
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }}
+/>
       <h2 className='text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100'>Community Images</h2>
 
       {images.length > 0 ? (

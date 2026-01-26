@@ -3,12 +3,14 @@ import { useEffect } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import Message from './Message'
+import { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 const ChatBox = () => {
 
   const containerRef = useRef(null)
 
-  const {selectedChat, theme} = useAppContext()
+  const {selectedChat, theme, user, axios, token, setUser} = useAppContext()
 
   const [messages, setMessages] = useState([])
 
@@ -21,7 +23,47 @@ const ChatBox = () => {
   const [isPublished, setIsPublished] = useState(false)
 
   const onSubmit = async (e) => {
-    e.preventDefault()
+   
+    try {
+
+       e.preventDefault()
+
+       if(!user) return toast('Login to send message')
+      
+        setLoading(true)
+        const promptCopy = prompt
+        setPrompt('')
+        setMessages( prev=> [...prev, {role: 'user', content: prompt, timestamp: Date.now(), isImage : false} ])
+
+        const {data} = await axios.post(`/api/message/${mode}`, {chatId: selectedChat._id, prompt, isPublished, }, {headers: {Authorization : `Bearer ${token}`}})
+
+        if(data.success){
+          setMessages(prev => [...prev, data.reply])
+
+          // decrease credits
+          if(mode == 'image')
+            setUser(prev => ({...prev, credits: prev.credits - 2}))
+          else
+            setUser(prev => ({...prev, credits: prev.credits - 1}))
+        
+        }
+        
+        else {
+          toast.error(data.message)
+          setPrompt(promptCopy)
+        }
+
+       
+        }
+      
+     catch (error) {
+       toast.error(error.message)
+    }
+
+    finally{
+      setPrompt('')
+      setLoading(false)
+    }
 
   }
 
@@ -41,7 +83,20 @@ const ChatBox = () => {
   },[messages])
 
   return (
-    <div className='flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'> 
+    <div className='flex flex-col h-[90%] justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'> 
+
+    <Toaster
+  position="top-center"
+  toastOptions={{
+    style: {
+      marginLeft: '16.6667%',   // sidebar width
+      width: '83.3333%',        // main area width
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }}
+/>
+    
     {/* Chat Messages */}
     <div ref={containerRef} className='flex-1 mb-10 mt-20 overflow-y-scroll flex flex-col items-center'>
       {messages.length === 0 && (
@@ -55,7 +110,7 @@ const ChatBox = () => {
 
       {/* Three Dots Loading */}
       {
-        loading && <div className='loader flex items-center gap-1.5'>
+        loading && <div className='loader flex gap-1.5 self-start ml-5 mb-2'>
           <div className='w-1.5 h-1.5 rounded-full bg-gray-500 dark:bg-white animate-bounce'>
           </div>
 
@@ -77,7 +132,7 @@ const ChatBox = () => {
     )}
 
     {/* Prompt Input Box */}
-    <form onSubmit={onSubmit} className='bg-primary/20 dark:bg-[#464444] border border-primary dark:border-[#827e87]/30 rounded-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center'>
+    <form onSubmit={onSubmit} className='bottom-[100px] bg-primary/20 dark:bg-[#464444] border border-primary dark:border-[#827e87]/30 rounded-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center'>
       <select onChange={(e)=> setMode(e.target.value)} value={mode} className='text-sm pl-3 pr-2 outline-none'>
         <option className='dark:bg-gray-900' value="text">Text</option> 
         <option className='dark:bg-gray-900' value="image">Image</option>

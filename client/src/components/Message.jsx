@@ -15,7 +15,7 @@ const Message = ({message}) => {
       <div className="w-full flex flex-col items-end my-4 gap-2">
         
         <div className="flex flex-col gap-2 p-2 px-4 bg-slate-50 dark:bg-[#464444] border border-[#827e87]/30 rounded-md max-w-2xl">
-          <p className="text-sm dark:text-primary">
+          <p className="text-sm dark:text-white">
             {message.content}
           </p>
           <span className="text-xs text-gray-400 dark:text-[#b8b2c0]">
@@ -40,7 +40,7 @@ const Message = ({message}) => {
               className="w-full max-w-md mt-2 rounded-md"
             />
           ) : (
-            <div className="text-sm dark:text-primary whitespace-pre-wrap break-words">
+            <div className="text-sm dark:text-white whitespace-pre-wrap break-words">
               <Markdown>
                 {String(message.content || '')}
               </Markdown>
