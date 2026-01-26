@@ -51,10 +51,10 @@ const deleteChat = async (e, chatId) => {
 
   return (
     <div
-  className={`flex flex-col h-screen w-1/6 p-5
+  className={`flex flex-col h-screen w-full md:w-1/4 lg:w-1/6 p-5
   dark:bg-gradient-to-b from-[#1F1F1F]/70 to-[#0F0F0F]/90
   border-r border-[#3F3F46]/40 backdrop-blur-3xl
-  transition-transform duration-500 left-0 top-0 z-50 fixed
+  transition-transform duration-500 left-0 top-0 z-50 sm:overflow-y-auto fixed
   ${isMenuOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'}
   `}
 > 
@@ -108,7 +108,7 @@ const deleteChat = async (e, chatId) => {
         <div onClick={() => {
     setIsMenuOpen(false)
     setTimeout(() => navigate('/community'), 200)
-  }} className='flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scal-103 transition-all'>
+  }} className='flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all'>
           <img src={assets.gallery_icon} className='w-4.5 not-dark:invert' alt="" />
           <div className='flex flex-col text-sm'>
             <p> Community Images</p>
