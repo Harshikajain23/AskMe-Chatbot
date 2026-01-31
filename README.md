@@ -2,6 +2,8 @@
 
 AskMe is a full-stack AI-powered chatbot application designed with real-world scalability in mind. It allows users to generate text and images using AI, manage usage through a credit-based system, and make secure payments to purchase credits.
 
+![ASK-ME CHATBOT SCREENSHOT] (1.jpg)
+
 ## Live Demo
 [https://askme-chatbot-git-main-harshika-jains-projects-d462d05c.vercel.app/]
 
