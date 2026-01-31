@@ -83,13 +83,13 @@ const deleteChat = async (e, chatId) => {
       {chats.length> 0 && <p className='mt-4 text-sm'>Recent Chats</p>}
       <div className='flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 mt-3 text-sm space-y-3'>
         {
-          chats.filter((chat)=> chat.messages[0] ? chat.messages[0]?.content.toLowerCase().includes(search.toLowerCase()) : chat.name.toLowerCase().includes(search.toLowerCase())).map((chat)=> <div onClick={()=> {navigate('/'); setSelectedChat(chat); setIsMenuOpen(false) }} key={chat._id} className='p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md curosr-pointer flex justify-between group'> 
+          chats.filter((chat)=> chat.messages[0] ? chat.messages[0]?.content.toLowerCase().includes(search.toLowerCase()) : chat.name.toLowerCase().includes(search.toLowerCase())).map((chat)=> <div onClick={()=> {navigate('/'); setSelectedChat(chat); setIsMenuOpen(false) }} key={chat._id} className='p-2 px-4 dark:bg-[#1F1F1F]/10 border border-gray-300 dark:border-gray-700 rounded-md curosr-pointer flex justify-between group'> 
           <div>
             <p className='truncate w-full'>
               {chat.messages.length > 0 ? chat.messages[0].content.slice(0, 32): chat.name}
             </p>
 
-            <p className='text-xs text-gray-500 dark:text-[#B1A6C0]'>
+            <p className='text-xs text-gray-500 dark:text-gray-300'>
               {moment(chat.updatedAt).fromNow()}
             </p>
           </div>
